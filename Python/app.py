@@ -9,6 +9,37 @@ app = Flask(__name__)
 CORS(app, support_credentials=True)
 app.config['CORS_HEADERS'] = 'application/json'
 
+
+Articles = Articles()
+
+
+@app.route('/')
+def index():
+    return render_template('home.html')
+
+@app.route('/articles')
+def articles():
+    return render_template('articles.html', articles = Articles)
+
+@app.route('/article/<string:id>/')
+def article(id):
+    return render_template('article.html', id = id)
+
+
+# @app.route('/about')
+# def getData(county = 'Austin'):
+#     with open('time_series_covid19_confirmed_US.csv', newline='') as csvfile:
+#             datareader = csv.DictReader(csvfile)
+#             for row in datareader:
+#                 #print(row['Admin2'])
+#                 if county == row['Admin2']:
+#                     return {'confirmed':row,
+#                     'deaths':{'4/4/20':'32'},
+#                     'recovered':{'4/4/20':'12'}}
+#             return 'no data found'
+ # bring all the 3 deaths and recovered csvs and fetch the data
+
+
 @app.route('/about', methods=['GET','POST'])
 @cross_origin(origin='*')
 @cross_origin(supports_credentials=True)
@@ -31,6 +62,12 @@ def getData():
         for row in datareader:
             if placeValue == row['Admin2']:
                 returnObject['deaths'] = row
+    # with open('RECOVERED FILE NAME.csv', newline='') as csvfile:
+    #     datareader = csv.DictReader(csvfile)
+    #     for row in datareader:
+    #         if county == row['Admin2']:
+    #             returnObject['recovered'] = row
+    #             break
     return returnObject
 
 @app.route('/texasData', methods=['GET','POST'])
@@ -59,6 +96,19 @@ def getTexasData():
         for row in datareader:
             if placeValue == row['Province_State']:
                 returnObject['texasDeathsCardRow'].append(row)
+
+        # with open('Hospitalization_all_locs.csv', newline='') as csvfile:
+        #     datareader = csv.DictReader(csvfile)
+        #     for row in datareader:
+        #         if placeValue == row['location']:
+        #             returnObject['USBeds'].append(row)
+
+    # with open('RECOVERED FILE NAME.csv', newline='') as csvfile:
+    #     datareader = csv.DictReader(csvfile)
+    #     for row in datareader:
+    #         if county == row['Admin2']:
+    #             returnObject['recovered'] = row
+    #             break
     return returnObject
 
 @app.route('/DFWData', methods=['GET','POST'])
@@ -103,8 +153,8 @@ def getDFWData():
 @cross_origin(supports_credentials=True)
 def getDataHospital():
     print(request.get_json())
-    if request.get_json().get('Texas'):
-        placeValue = request.get_json().get('Texas')
+    if request.get_json().get('placeValue'):
+        placeValue = request.get_json().get('placeValue')
         print("place value if", placeValue)
     else:
         placeValue = "Texas"
