@@ -226,16 +226,16 @@
                    </div>
                  </div><br><div class="card" style="max-width: 18rem; height: 8.5rem;">
                             <div class="card-header bg-dark content-center">
-                               <h2 style="text-align:center">Sma DFW</h2>
+                               <h2 style="text-align:center">Harris</h2>
                             </div>
                             <div class="card-body row text-center">
                               <div class="col">
-                                <div class="text-value-xl" id="dfwConfirmedCases">007</div>
+                                <div class="text-value-xl" id="harrisConfirmedCard">007</div>
                                 <div class="text-uppercase text-muted small">Confirmed</div>
                               </div>
                               <div class="vr"></div>
                               <div class="col">
-                                <div class="text-value-xl" id="dfwDeathCases">007</div>
+                                <div class="text-value-xl" id="harrisDeathCard">007</div>
                                 <div class="text-uppercase text-muted small">Deaths</div>
                               </div>
                           </div>
@@ -562,7 +562,7 @@
   <div style="position:absolute; right:600px;" >
         <div id="floating-panel">
             <select id="address" onchange="confirmed(this.value)">
-              <option value="Dallasmid">Dallasmid</option>
+              <option value="Dallas">Dallas</option>
               <option value="Collin">Collin</option>
               <option value="denton">denton</option>
               <option value="Anderson">Anderson</option>
@@ -1517,6 +1517,39 @@ function dallasConfirmedDeaths(){
 
 
 
+harrisConfirmedDeaths();
+//populate this data in cards-------pending
+function harrisConfirmedDeaths(){
+  var Harris = "Harris";
+  var bodyData ={'placeValue': Harris};
+  fetch('http://127.0.0.1:5000/about', {method: "POST",headers: {'Content-Type': 'application/json'},body: JSON.stringify(bodyData)})
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // console.log('dallasConfirmedDeaths-data ', data);
+      var currentDate = new Date();
+      var date = currentDate.getDate() - 1;
+      var month = currentDate.getMonth() + 1;
+      var year = ('' + currentDate.getFullYear()).slice(2,4);
+      var dateStr = month + '/' + date + '/' + year;
+      // console.log("dallasConfirmedDeaths------",dateStr);
+      var place = {
+      name: data.confirmed.Combined_Key,
+      HarrisConfirmedCases: data.confirmed[dateStr],
+      HarrisConfirmedDeaths: data.deaths[dateStr],
+      // RecoveredCases: data.recovered[dateStr],
+      date: dateStr
+    };
+    document.getElementById("harrisConfirmedCard").innerHTML = place.HarrisConfirmedCases;
+    document.getElementById("harrisDeathCard").innerHTML = place.HarrisConfirmedDeaths;
+
+    console.log("dallasConfirmedDeaths++++++++++", place );
+});
+}
+
+
+
 
 texasConfirmedDeaths();
 function texasConfirmedDeaths(){
@@ -1537,12 +1570,15 @@ function texasConfirmedDeaths(){
       var texasDeathCasesCard = 0;
       var countyColumnCard = [];
       var countyConfirmedCases = [];
-
       var dateStr2 = dateStr;
+
       for(i =0; i<data["texasDeathsCardRow"].length; i++){
         countyColumnCard.push(data["texasDeathsCardRow"][i].Admin2)
         countyConfirmedCases.push(data["texasDeathsCardRow"][i][dateStr])
+
+
       }
+      console.log("harris", data);
       data["texasDataRows"].forEach(element => texasConfirmedCasesCard += parseInt(element[dateStr]));
       document.getElementById("texasConfirmedCasesCard").innerHTML = texasConfirmedCasesCard;
       data["texasDeathsCardRow"].forEach(element => texasDeathCasesCard += parseInt(element[dateStr]));
