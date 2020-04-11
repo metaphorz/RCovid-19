@@ -15,10 +15,10 @@
 <head>
 	<title>Welcome to my page</title>
 	<meta charset="UTF-8">
-<meta name="author" content="Sai Teja Peddi"/>
-<meta name="Description" content="Hi, I am Sai Teja Peddi Computer Science graduate student at The University of Texas at Dallas"/>
+<!-- <meta name="author" content="Sai Teja Peddi"/> -->
+<!-- <meta name="Description" content="Hi, I am Sai Teja Peddi Computer Science graduate student at The University of Texas at Dallas"/> -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<meta name="keywords" content="Web Designer, UTD, Dallas, Software Engineer, Data Science"/>
+<!-- <meta name="keywords" content="Web Designer, UTD, Dallas, Software Engineer, Data Science"/> -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
 <link
   href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
@@ -247,7 +247,7 @@
 			<select id="address" onchange="initMap(this.value)">
 				<option value="Dallas">Dallas</option>
 				<option value="Collin">Collin</option>
-				<option value="denton">denton</option>
+				<!-- <option value="denton">denton</option> -->
 				<option value="Anderson">Anderson</option>
 				<option value="Angelina">Angelina</option>
 				<option value="Aransas">Aransas</option>
@@ -564,7 +564,7 @@
             <select id="address" onchange="confirmed(this.value)">
               <option value="Dallas">Dallas</option>
               <option value="Collin">Collin</option>
-              <option value="denton">denton</option>
+              <!-- <option value="denton">denton</option> -->
               <option value="Anderson">Anderson</option>
               <option value="Angelina">Angelina</option>
               <option value="Aransas">Aransas</option>
@@ -1774,8 +1774,9 @@ function DallasFortWorthConfirmedDeaths(){
       console.log("confirmed-placevalue",placeValue);
       var dom = document.getElementById("container");
       var myChart = echarts.init(dom);
-     var Dallas = "Dallas";
-     var bodyData ={'placeValue': Dallas};
+     // var Dallas = "Dallas";
+     // var bodyData ={'placeValue': Dallas};
+     var bodyData ={'placeValue': placeValue};
 
      fetch('http://127.0.0.1:5000/about', {method: "POST",headers: {'Content-Type': 'application/json'},body: JSON.stringify(bodyData)})
        .then((response) => {
@@ -1799,7 +1800,7 @@ function DallasFortWorthConfirmedDeaths(){
          continue;
        }
        var dateStr = month + '/' + date + '/' + year;
-       // console.log(dateStr)
+       console.log("........",dateStr)
        confirmedLast7daysKeys.push(dateStr)
        confirmedLast7daysValues.push(data.confirmed[dateStr])
        date = date - 1;
@@ -1889,7 +1890,7 @@ function DallasFortWorthConfirmedDeaths(){
       document.getElementById("name1").innerHTML = "Fatality - " + placeValue;
       var dom = document.getElementById("container1");
       var myChart = echarts.init(dom);
-
+      console.log("dabc", placeValue);
       var Dallas = "Dallas";
       var bodyData ={'placeValue': Dallas};
 
